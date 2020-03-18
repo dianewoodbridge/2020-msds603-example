@@ -1,0 +1,69 @@
+{
+    "pipeline": {
+        "name": "ProductAnalytics_Worker_Pipeline",
+        "version": 1,
+        "roleArn": "arn:aws:iam::374226464461:role/service-role/AWSCodePipelineServiceRole-us-west-2-MSDS603_Week1_App",
+        "artifactStore": {
+            "type": "S3",
+            "location": "codepipeline-msds603-week1"
+        },
+        "stages": [
+            {
+                "name": "Source",
+                "actions": [
+                    {
+                        "name" : "GitHubSource",
+                        "inputArtifacts": [],
+                        "actionTypeId": {
+                            "version": "1",
+                            "owner": "ThirdParty",
+                            "category": "Source",
+                            "provider": "GitHub"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "SourceArtifact"
+                            }
+                        ],
+                        "runOrder": 1,
+                        "configuration": {
+                            "Owner": "dianewoodbridge",
+                            "Repo": "msds603_week1",
+                            "PollForSourceChanges": "true",
+                            "Branch": "master",
+                            "OAuthToken": "72346341067328d6476ebad476fb80a16fda1f89"
+                        }
+                    }
+                ]
+            },
+
+            {
+              "name": "Deploy",
+              "actions": [
+                {
+                  "inputArtifacts": [
+                    {
+                      "name": "SourceArtifact"
+                    }
+                  ],
+                  "name": "CodeDeploy",
+                  "actionTypeId": {
+                    "category": "Deploy",
+                    "owner": "AWS",
+                    "version": "1",
+                    "provider": "ElasticBeanstalk"
+                  },
+                  "outputArtifacts": [
+
+                        ],
+                  "configuration": {
+                    "ApplicationName": "ProductAnalytics_Week1",
+                    "EnvironmentName": "ProductAnalytics-Worker"
+                  },
+                  "runOrder": 2
+                }
+              ]
+            }
+        ]
+    }
+}
