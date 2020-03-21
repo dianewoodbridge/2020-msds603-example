@@ -56,9 +56,14 @@ def calculate():
                                              prev_reading)
 
 
-    s3 = boto3.resource("s3").Object(bucket_name,output_file).put(Body=body)
+    #s3 = boto3.resource("s3").Object(bucket_name,output_file).put(Body=body)
+    boto3.resource("s3").Bucket(bucket_name).put_object(Key=output_file, Body=body, ACL='public-read-write')
 
     time.sleep(5) # Added this for working on EB - Needs a delay to  update the access after putting an obj
+
+    
+    
+    
 
     return redirect("/index")
 
