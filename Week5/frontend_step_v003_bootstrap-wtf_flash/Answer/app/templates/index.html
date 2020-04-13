@@ -1,0 +1,23 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="card card-body bg-light">
+    <h3>Product Analytics : Front-end Day</h3>
+    <p>
+    This course introduces tools and techniques for building data science web services and applications. </br>
+    Students work throughout the course to build stand-alone cloud-based applications that store data and serve inferences derived from machine learning models.</br>
+    {% if not authenticated_user %} Want to know more about? <a href="login"> Please Log in</a> 
+    {% else %} <a href="examples"> See the examples.  </a> 
+    {% endif %}
+    </p>
+</div>
+{% endblock %}
