@@ -1,0 +1,25 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Example
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% include 'flash.html' %}
+    <h2>Examples</h2>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+        Menu
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="examples">Drop Down</a>
+        <a class="dropdown-item" href="list">Download from S3</a>
+      </div>
+    </div>
+</div>
+{% endblock %}

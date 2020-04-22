@@ -1,0 +1,17 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Example
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% include 'flash.html' %}
+
+    {% include 'dropdown.html' %}
+</div>
+{% endblock %}

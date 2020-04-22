@@ -1,0 +1,26 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+{{super()}}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% endblock %}
+
+
+{% block title %}
+Example
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    {% include 'dropdown.html' %}
+    <div class="container">
+        <div>
+        {{ source|safe }}
+        </div>
+    </div> <!-- /container -->
+{% endblock %}
+
+
