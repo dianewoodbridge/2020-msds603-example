@@ -151,3 +151,13 @@ def plotly_example():
     output = plotly_map(locations)
     return render_template('plotly_map.html', source=output)
 
+@application.route('/google_example')
+@login_required
+def google_example():
+    query = classes.Fertility.query.all()
+    result = []
+    for row in query :
+        result.append([row.id, row.life_expectancy, row.fertility_rate, row.region, row.population])
+        
+    return render_template('google_chart.html', lines=result)
+    

@@ -37,18 +37,20 @@ class Location(db.Model):
         self.latitude = lat
         self.details = details
 
+
 class Fertility(db.Model):
-    id = db.Column(db.String(80), unique=True, nullable=False, primary_key=True)
-    life_expectancy = db.Column(db.Integer, nullable=False)
-    fertility_rate = db.Column(db.Float, nullable=False)
-    region = db.Column(db.String(80), nullable=False)
-    population = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.String(80), primary_key = True)
+    life_expectancy = db.Column(db.Integer, nullable = False)
+    fertility_rate = db.Column(db.Float, nullable = False)
+    region = db.Column(db.String(80), nullable = False)
+    population = db.Column(db.Integer, nullable = False)
 
     def __init__(self, id, life_expectancy, fertility_rate, region, population):
         self.id = id
         self.life_expectancy = life_expectancy
         self.fertility_rate = fertility_rate
         self.region = region
+        self.population = population
 
 db.create_all()
 db.session.commit()

@@ -1,56 +1,50 @@
-{% extends "bootstrap/base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
+{%  extends "bootstrap/base.html" %}
 
 {% block title %}
-Example
+    Google Visualization Example
 {% endblock %}
 
 {% block navbar %}
-         {% include 'navbar.html' %}
+    {% include "navbar.html" %}
 {% endblock %}
 
 {% block content %}
-    {% include 'dropdown.html' %}
     <div class="container">
-        <div id="series_chart_div" ></div>
+        {% include "dropdown.html" %}
+        <div id="bubble_chart"></div>
     </div>
 {% endblock %}
-  
 
 {% block scripts %}
-    {{super()}}
+    {{ super() }}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawBubbleChart);
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawSeriesChart);
+      function drawBubbleChart(){
 
-    function drawSeriesChart() {
+          var data = new google.visualization.DataTable();
+          // add column and data type
+          data.addColumn('string', 'ID');
+          data.addColumn('number', 'Life Expectancy');
+          data.addColumn('number', 'Fertility Rate');
+          data.addColumn('string', 'Region');
+          data.addColumn('number', 'Population');
 
-      var data = new google.visualization.DataTable();
-      // add column data types and label
-      data.addColumn('string','ID');
-      data.addColumn('number','Life Expectancy');
-      data.addColumn('number','Fertility Rate');
-      data.addColumn('string','Region');
-      data.addColumn('number','Population');
+          //lines to json
+          var fertility_json = '{{ lines | tojson }}';
+          data.addRows(JSON.parse(fertility_json));
 
-      // takes lines as json
-      var fertility_json = '{{ lines | tojson }}';
+          var options = {
+              title : "Correlation between life expectancy, fertility, and population",
+              hAxis : {title: 'Life Expectancy'},
+              vAxis : {title: 'Fertility Rate'},
+              bubble : {textStyle : {fontSize:11}}
+          };
 
-      // parse the json and feed as rows.
-      data.addRows(JSON.parse(fertility_json));
-
-      var options = {
-        title: 'Correlation between life expectancy, fertility rate and population',
-        hAxis: {title: 'Life Expectancy'},
-        vAxis: {title: 'Fertility Rate'},
-        bubble: {textStyle: {fontSize: 11}}
-      };
-
-      var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
-      chart.draw(data, options);
-    }
+          var chart = new google.visualization.BubbleChart(document.getElementById('bubble_chart'));
+          chart.draw(data, options);
+      }
     </script>
 {% endblock %}
