@@ -1,0 +1,37 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+{{ super() }}
+{% include "ga.html" %}
+{% endblock %}
+
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+
+{% block content %}
+<div class="card bg-dark">
+    <img class="card-img img-rounded" src= {{ url_for('static',filename='Group_Project_Grey.jpg') }} >
+    <div class="card-img-overlay">
+        <h3 class="card-title text-white">Product Analytics : Front-end Day</h3>
+        <p class="card-text text-white">
+        This course introduces tools and techniques for building data science web services and applications. </br>
+        Students work throughout the course to build stand-alone cloud-based applications that store data and serve inferences derived from machine learning models.</br>
+        {% if not authenticated_user %} Want to know more about? <a href="login"> Please Log in</a>
+        {% else %} <a href="examples"> See the examples.  </a>
+        {% endif %}
+        </p>
+    </div>
+    <div class="card-footer text-light">Developed by Diane Woodbridge</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% include "ga.html" %}
+{% endblock %}

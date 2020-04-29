@@ -1,0 +1,56 @@
+{%  extends "bootstrap/base.html" %}
+
+{% block head %}
+{{ super() }}
+{% include "ga.html" %}
+{% endblock %}
+
+
+{% block title %}
+    Google Visualization Example
+{% endblock %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% include "dropdown.html" %}
+        <div id="bubble_chart"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawBubbleChart);
+
+      function drawBubbleChart(){
+
+          var data = new google.visualization.DataTable();
+          // add column and data type
+          data.addColumn('string', 'ID');
+          data.addColumn('number', 'Life Expectancy');
+          data.addColumn('number', 'Fertility Rate');
+          data.addColumn('string', 'Region');
+          data.addColumn('number', 'Population');
+
+          //lines to json
+          var fertility_json = '{{ lines | tojson }}';
+          data.addRows(JSON.parse(fertility_json));
+
+          var options = {
+              title : "Correlation between life expectancy, fertility, and population",
+              hAxis : {title: 'Life Expectancy'},
+              vAxis : {title: 'Fertility Rate'},
+              bubble : {textStyle : {fontSize:11}}
+          };
+
+          var chart = new google.visualization.BubbleChart(document.getElementById('bubble_chart'));
+          chart.draw(data, options);
+      }
+    </script>
+{% endblock %}

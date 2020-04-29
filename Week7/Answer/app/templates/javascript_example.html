@@ -1,0 +1,89 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+{{ super() }}
+{% include "ga.html" %}
+{% endblock %}
+
+
+
+{% block title %}
+Example
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    {% include 'dropdown.html' %}
+    <div class="container">
+        <br />
+        <!-- Extend Here -->
+
+         <table class = "table table-hover">
+            <thead class = "thead-dark">
+            <tr>
+                <th align="left">Name</th>
+                <th align="left">Logitude</th>
+                <th align="left">Latitude</th>
+                <th align="left">Delete</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for location in locations %}
+            <tr>
+                <td> {{ location['name'] }}
+                <button type="button" class="btn btn-light btn-sm" data-toggle="popover" data-content="{{ location['details'] }}"  data-title="Details">
+                        <span class="iconify" data-icon="mdi:magnify-scan" data-inline="true"></span>
+                </button>
+                </td>
+                <td> {{ location['longitude'] }}</td>
+                <td> {{ location['latitude'] }}</td>
+                <td>
+                    {% set button_name =  location['name'] %}
+                    <button type="button" class="btn btn-light btn-sm"  id="{{ button_name }}" onclick="Delete(this.id)">
+                    <span class="iconify" data-icon="el:remove-sign" data-inline="false"></span> Delete
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+         </table>
+
+
+        <br/>
+        {{ wtf.quick_form(location_form) }}
+    </div> <!-- /container -->
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://code.iconify.design/1/1.0.3/iconify.min.js"></script>
+
+<script>
+jQuery(function () {
+  jQuery('[data-toggle="popover"]').popover()
+})
+</script>
+
+<script>
+function Delete(button_name)
+{
+    var dat = JSON.stringify( {button_name :button_name} );
+
+    //open a new window and then render a tepmlate(sentence.html) using the dat.
+    var posting = $.post("/update_location", dat);
+
+    //refresh the window
+    posting.done(function(){
+       window.location.reload()
+    })
+
+}
+</script>
+{% endblock %}
+
